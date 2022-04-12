@@ -1,55 +1,64 @@
+<script setup>
+import TodoItem from './components/Todo/TodoItem.vue'
+import TodoHeader from './components/Todo/TodoHeader.vue'
+import TodoFooter from './components/Todo/TodoFooter.vue'
+import AppFooter from './components/Todo/AppFooter.vue'
+import { computed, reactive } from 'vue';
+
+const data = reactive({
+  tasks: [
+    {
+      id: 1,
+      text: 'first task',
+      isCompleted: false,
+    },
+    {
+      id: 2,
+      text: 'second task',
+      isCompleted: false,
+    },
+    {
+      id: 3,
+      text: 'third task',
+      isCompleted: false,
+    }
+  ]
+})
+
+const left = computed(() => data.tasks.filter(t => !t.isCompleted).length)
+
+function setIsActive(taskId, isCompleted) {
+  let task = data.tasks.find(t => t.id === taskId);
+  task.isCompleted = isCompleted;
+}
+
+function setText(taskId, text) {
+  let task = data.tasks.find(t => t.id === taskId);
+  task.text = text;
+}
+
+function clearCompleted() {
+  data.tasks = data.tasks.filter(t => !t.isCompleted)
+}
+
+</script>
+
 <template>
   <div class="todo">
     <section class="todoapp">
-      <header class="header">
-        <h1>todos</h1>
-        <input
-            class="new-todo"
-            autofocus
-            autocomplete="off"
-            placeholder="What needs to be done?"
-        />
-      </header>
+      <TodoHeader></TodoHeader>
       <section class="main">
         <input id="toggle-all" class="toggle-all" type="checkbox"/>
         <label for="toggle-all">Mark all as complete</label>
         <ul class="todo-list">
-          <li class="todo" v-for="i in [1, 2, 3]" :key="i">
-            <div class="view">
-              <input class="toggle" type="checkbox"/>
-              <label>todo #{{ i }}</label>
-              <button class="destroy"></button>
-            </div>
-            <input class="edit" type="text"/>
-          </li>
+          <TodoItem v-for="task in data.tasks" :key="task.id"
+                    @set-is-completed="setIsActive"
+                    @set-text="setText"
+                    :task="task"></TodoItem>
         </ul>
       </section>
-      <footer class="footer">
-        <span class="todo-count"> <strong>10</strong> left </span>
-        <ul class="filters">
-          <li>
-            <a href="#/all">All</a>
-          </li>
-          <li>
-            <a href="#/active">Active</a>
-          </li>
-          <li>
-            <a href="#/completed">Completed</a>
-          </li>
-        </ul>
-        <button class="clear-completed">Clear completed</button>
-      </footer>
+      <TodoFooter @clear-completed="clearCompleted" :left="left"></TodoFooter>
     </section>
-    <footer class="info">
-      <p>Double-click to edit a todo</p>
-      <p>
-        Written by
-        <a href="http://evanyou.me">Evan You</a>
-      </p>
-      <p>
-        Part of
-        <a href="http://todomvc.com">TodoMVC</a>
-      </p>
-    </footer>
+    <AppFooter></AppFooter>
   </div>
 </template>
