@@ -4,23 +4,23 @@
       <header class="header">
         <h1>todos</h1>
         <input
-            class="new-todo"
-            autofocus
-            autocomplete="off"
-            placeholder="What needs to be done?"
+          class="new-todo"
+          autofocus
+          autocomplete="off"
+          placeholder="What needs to be done?"
         />
       </header>
       <section class="main">
-        <input id="toggle-all" class="toggle-all" type="checkbox"/>
+        <input id="toggle-all" class="toggle-all" type="checkbox" />
         <label for="toggle-all">Mark all as complete</label>
         <ul class="todo-list">
           <li class="todo" v-for="i in [1, 2, 3]" :key="i">
             <div class="view">
-              <input class="toggle" type="checkbox"/>
+              <input class="toggle" type="checkbox" />
               <label>todo #{{ i }}</label>
               <button class="destroy"></button>
             </div>
-            <input class="edit" type="text"/>
+            <input class="edit" type="text" />
           </li>
         </ul>
       </section>
