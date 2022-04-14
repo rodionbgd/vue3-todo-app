@@ -16,6 +16,7 @@
           :todo="todo"
           @toggle-todo="toggleTodo"
           @remove-todo="removeTodo"
+          v-model="todo.todo"
         />
       </ul>
     </section>
